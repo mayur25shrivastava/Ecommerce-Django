@@ -1,0 +1,478 @@
+
+<!-- 
+Note: 
+Add tocard of website starts from lec 37 onwards
+enjoy coding -->
+
+<!--to clear cart  ==> localstorage.clear() -----> 
+
+{% extends 'shop/basic.html' %}
+
+
+<!-- {% block css %} -->
+
+<style>
+
+  
+
+          #hero{
+              /* margin-top: 45px; */
+              /* padding-top: 45px; */
+              /* background: #02104c; */
+              /* background-image: url('img/about/a2.jpg'); */
+              height: 92.5vh;
+              /* height: 75vh; */
+              width: 100%;
+              background-size: cover ;
+              background-position: top 25% right 0;
+              padding: 0 80px;
+              display: flex;
+              /* align-items: flex-start; */
+              justify-content: center;
+
+              background-color: #088178;
+
+              
+          }
+          #hero img{
+            margin-top: 45px;
+              height: 70vh;
+              width: 100%;
+              background-size: cover ;
+              background-position: top 25% right 0;
+              padding: 0 80px;
+          }
+
+          .left1 h4,h2,h1,p{
+            margin-top: 45px;
+              color: white;
+              padding: 15px;
+              
+          }
+          .left1 h4{
+              padding-bottom: 20px;
+          }
+
+          .left1 h1{
+            
+              padding-bottom: 20px;
+              color: aqua;
+          }
+
+          .left1 p{
+              padding-bottom: 20px;
+              color: rgb(202, 250, 114);
+          }
+
+          #hero button{
+              /* background-image: url("img/button.png"); */
+              
+
+              /* background-color: transparent; */
+              background-color: white;
+              color: #088178;
+              border: 0;
+              border-radius: 12px;
+              padding: 14px 80px 14px 65px;
+              cursor: pointer;
+              background-repeat: no-repeat;
+              font-weight: 700;
+              font-size: 15px;
+          }
+          #hero button:hover{
+              background-color: #119c62;
+              color: #ffffff;
+          }
+
+          /* .crcontroler{
+              margin-top: 25rem;
+          } */
+          /* .aa{
+              margin-top: 55rem;
+          } */
+
+
+            .crh{
+                height: 92vh;
+                width: 100%;
+            }
+            
+            .crds{
+                margin-top: 20px;
+                margin-left: 20px;
+            /* display: flex; */
+            }
+            
+            .crm{
+               width: 20vw;
+            }
+            .crm img{
+                height: 20vh;
+            } 
+
+
+          .ms
+          {
+              display: inline-block;
+              margin-left:-4px;
+          }
+          .ms2 .active {
+              background-color: blue;
+            }
+          .ms img{
+              width:100%;
+              height:auto;
+          }
+          body .ms li{
+              background-color: blue;
+          }
+          body .ms2{
+              bottom: 0;
+          }
+          body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+              background-color: blue;
+          }
+
+          .carousel-control-prev,
+          .carousel-control-next{
+                top: auto;
+                bottom: auto;
+                /* padding-top: 222px; */
+                margin-top: -222px;
+                margin-left: -42px;
+          }
+
+           body .no-padding{
+              padding-left: 0;
+              padding-right: 0;
+           }
+           .card-text{
+                color: black;
+           }
+           .col-md-3 img{
+                width: 200px;
+                height: 200px;
+                margin: auto;
+           }
+           body{
+            color: black;
+           }
+</style>
+
+
+<!-- {% endblock %} -->
+
+{% block body %}
+{% load static %}
+
+
+    <section id="hero">
+      <div class="left1">
+          <h4>Great Indian sale is Live Now !!!</h4>
+          <h2>Greatest Deal On</h2>
+          <h1>All Branded Products</h1>
+          <p>Login from 1 April to 31 April get 50% OFF!!!</p>
+          <a href="login.html">
+
+              <button>Sign Up</button>
+          </a>
+      </div>
+      <div class="right1">
+          <img src='{% static "shop/main3.png"%}' alt="">
+      </div>
+  </section>
+
+  
+
+    <div class="container">
+      
+          <!--Slideshow starts here -->
+          {% for product,range,nslides in allProds %}
+      <h1 class="text-primary my-4">{{product.0.category}}</h1>
+
+      <div class="row">
+
+      <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
+          <ul class="carousel-indicators ms2">
+            <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+            {% for i in range %}
+            <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}" ></li>
+            {% endfor %}
+          </ul>
+      
+          <!--Slideshow starts here -->
+
+
+          <div class="container carousel-inner no-padding">
+      
+            <div class="carousel-item active">
+         
+             {% for i in product %}
+              <div class="col-xs-3 col-sm-3 col-md-3 ms">
+                <div class="card align-items-center" style="width: 18rem;">
+                  <img src='/media/{{i.image}}' class="card-img-top" alt="...">
+                  <div class="card-body">
+
+
+                    <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>  
+
+
+                    <p class="card-text">{{i.desc |slice:"0:90"}}...</p>
+
+                    <h6 class="card-title mb-4" >Price : <span id="pricepr{{i.id}}">{{i.price}}</span></h6>
+
+
+                    <span id="divpr{{i.id}}" class="divpr">
+                    <button id="pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button>
+                    </span>
+
+
+                    <a href="/shop/products/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart">Quick View</button></a> 
+                  </div>
+                </div>
+              </div>  
+              {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+
+              
+    
+      </div>
+      <div class="carousel-item">     
+        {% endif %}
+        {% endfor %}
+      </div>
+
+   </div>
+    </div>
+      
+    
+      
+      <div class="crcontroler">
+      
+          <!-- left and right controls for the slide -->
+          <a class="carousel-control-prev aa" href="#demo{{forloop.counter}}" data-slide="prev">
+              <span class="carousel-control-prev-icon "></span>
+          </a>
+          <a class="carousel-control-next aa" href="#demo{{forloop.counter}}" data-slide="next">
+              <span class="carousel-control-next-icon"></span>
+          </a>
+        </div>
+        
+     </div> <!--of row>> -->
+
+        {% endfor %}
+
+      </div>
+        {% endblock %}
+        
+
+ 
+
+        {% block js %}
+     <!--   <script>     
+                
+                if(localStorage.getItem('cart') == null){
+                    var cart = {};
+                }
+                else
+                {
+                    
+                    cart = JSON.parse(localStorage.getItem('cart'));
+                    // document.getElementById('cart').innerHTML=Object.keys(cart).length;
+                    
+                    // to add +/- to cart to add or remove items
+                    updateCart(cart);
+                }
+
+                     //if the add to cart button is clicked, add increment the item
+                    // $('.cart').click(function(){
+                        $('.divpr').on('click','button.cart',function(){    // we add this jQuery func instraed of previous one to solve the issue of clear cart buuton, when we try to add same item which we do clear cart can be added afain
+                 
+                            var idstr = this.id.toString();
+                            console.log(idstr);
+                            if (cart[idstr] !=undefined){
+                                // cart[idstr] = cart[idstr] + 1;
+
+                                // acc to lec 50
+                                qty = cart[idstr][0] + 1;
+                                
+                            }
+                            else
+                            {
+                                // cart[idstr] = 1;
+                                qty = 1;
+                                // name = document.getElementById('name'+idstr).innerHTML
+
+                                name=document.getElementById('name'+idstr).innerHTML
+                                cart[idstr] = [qty, name]; // cart has array of qty and name
+                            }
+
+                            // call the updateCart() func for adding +/- 
+                            updateCart(cart);
+                            
+                            // acc to lec 50
+                            
+                            // set item 
+                            // localStorage.setItem('cart', JSON.stringify(cart));
+                            // document.getElementById('cart').innerHTML=Object.keys(cart).length;
+                        });
+
+                // add popover to cart
+                $('#popcart').popover();
+
+                document.getElementById("popcart").setAttribute('data-content','<h5>Cart for you items in my shopping list are</h5>');
+
+
+                function updatePopover(cart)
+                {
+                
+                    var popStr = "";
+                    popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+                    var i = 1;
+                    for (var item in cart){
+                        popStr = popStr + "<b>" + i + "</b>. ";
+                        popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+                        i = i+1;
+                    }
+                    popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
+                    console.log(popStr);
+                    document.getElementById('popcart').setAttribute('data-content', popStr);
+                    $('#popcart').popover('show');
+                }
+
+
+                // clear cart function 
+                function clearCart() {
+                    cart = JSON.parse(localStorage.getItem('cart'));
+                    for (var item in cart) {
+                        document.getElementById('div' + item).innerHTML = '<button id="' + item + '" class="btn btn-primary cart">Add To Cart</button>'
+                    }
+                    localStorage.clear();
+                    cart = {};
+                    updateCart(cart);
+                }
+
+           
+                // to add +/- to cart to add or remove items
+                function updateCart(cart) {
+                    var sum=0;
+                    for (var item in cart) {
+                        sum=sum+cart[item][0];
+                        document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
+                    }
+
+
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    document.getElementById('cart').innerHTML = sum;
+                    updatePopover(cart);
+                }
+
+
+                // If + or - buttton is clicked, change the cart as well as the display value
+                $('.divpr').on("click", "button.minus", function() {
+                    // console.log("minus clicked ")
+
+                    // a = this.id
+                    // console.log(a)  ------=> shows minuspr7
+
+                    a = this.id.slice(7, );   // -----=> to remove minuspr
+                    cart['pr' + a][0] = cart['pr' + a][0] - 1;
+                    cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
+                    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+                    updateCart(cart);
+                });
+
+                $('.divpr').on("click", "button.plus", function() {
+                    // console.log("plus clicked ")
+                    a = this.id.slice(6, );
+                    cart['pr' + a][0] = cart['pr' + a][0] + 1;
+                    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+                    updateCart(cart);
+                });
+
+        </script>
+    -->
+
+
+
+    <script>
+        // Find out the cart items from localStorage
+        if (localStorage.getItem('cart') == null) {
+            var cart = {};
+        } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+            updateCart(cart);
+        }
+        // If the add to cart button is clicked, add/increment the item
+        //$('.cart').click(function() {
+        $('.divpr').on('click', 'button.cart', function() {
+            var idstr = this.id.toString();
+            if (cart[idstr] != undefined) {
+                qty = cart[idstr][0] + 1;
+                
+            } else {
+                qty = 1;
+                name = document.getElementById('name'+idstr).innerHTML
+                price = document.getElementById('price'+idstr).innerHTML
+                cart[idstr] = [qty, name,parseInt(price)];
+        
+            }
+            updateCart(cart);
+        });
+        //Add Popover to cart
+        $('#popcart').popover();
+        updatePopover(cart);
+        
+        function updatePopover(cart) {
+            console.log('We are inside updatePopover');
+            var popStr = "";
+            popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+            var i = 1;
+            for (var item in cart) {
+                popStr = popStr + "<b>" + i + "</b>. ";
+                popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+                i = i + 1;
+            }
+            popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
+            console.log(popStr);
+            document.getElementById('popcart').setAttribute('data-content', popStr);
+            $('#popcart').popover('show');
+        }
+        
+        function clearCart() {
+            cart = JSON.parse(localStorage.getItem('cart'));
+            for (var item in cart) {
+                document.getElementById('div' + item).innerHTML = '<button id="' + item + '" class="btn btn-primary cart">Add To Cart</button>'
+            }
+            localStorage.clear();
+            cart = {};
+            updateCart(cart);
+        }
+        
+        function updateCart(cart) {
+            var sum = 0;
+            for (var item in cart) {
+                sum = sum + cart[item][0];
+                document.getElementById('div' + item).innerHTML = "<button id='minus" + item + "' class='btn btn-primary minus'>-</button> <span id='val" + item + "''>" + cart[item][0] + "</span> <button id='plus" + item + "' class='btn btn-primary plus'> + </button>";
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            document.getElementById('cart').innerHTML = sum;
+            console.log(cart);
+            updatePopover(cart);
+        }
+        // If plus or minus button is clicked, change the cart as well as the display value
+        $('.divpr').on("click", "button.minus", function() {
+            a = this.id.slice(7, );
+            cart['pr' + a][0] = cart['pr' + a][0] - 1;
+            cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+            updateCart(cart);
+        });
+        $('.divpr').on("click", "button.plus", function() {
+            a = this.id.slice(6, );
+            cart['pr' + a][0] = cart['pr' + a][0] + 1;
+            document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+            updateCart(cart);
+        });
+        </script>
+        {% endblock %} 
